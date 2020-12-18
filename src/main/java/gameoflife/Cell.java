@@ -21,7 +21,7 @@ public class Cell {
         return col;
     }
 
-    // private static Map<String, Cell> cache = new HashMap<>();
+   // private static Map<String, Cell> cache = new HashMap<>();
 
     public static Cell of(int col, int row) {
 //        String key = "" + col + "," + row;
@@ -33,7 +33,7 @@ public class Cell {
 ////            return cell;
 ////        }
 //        return cache.computeIfAbsent(key, newKey -> Cell.of(col, row));
-        return Cell.of(col, row);
+        return new Cell(col,row);
     }
 
     @Override

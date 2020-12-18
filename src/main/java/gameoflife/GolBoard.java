@@ -9,6 +9,14 @@ public class GolBoard {
     private int height;
     private Set<Cell> aliveCells = new HashSet<>();
 
+    public GolBoard() {
+    }
+
+    public GolBoard(int width, int height) {
+        this.width = width;
+        this.height = height;
+    }
+
     public GolBoard createNextGeneration() {
         var nextBoard = new GolBoard(boardWidth(), boardHeight());
         spawnNewCells(nextBoard);
@@ -37,14 +45,6 @@ public class GolBoard {
         return (int) neighbours.stream()
                 .filter(neighbourCell -> aliveCells.contains(neighbourCell))
                 .count();
-    }
-
-    public GolBoard() {
-    }
-
-    public GolBoard(int width, int height) {
-        this.width = width;
-        this.height = height;
     }
 
     public boolean isAllDead() {

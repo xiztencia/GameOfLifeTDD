@@ -1,6 +1,9 @@
 import gameoflife.Cell;
 import gameoflife.GolBoard;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
 
 import java.util.Set;
 
@@ -31,7 +34,7 @@ public class GameOfLifeTest {
     }
 
     @Test
-    public void putOneCellAliveAndRestShouldBeDead() {
+    public void putOneCellAliveAndRestShouldNotBeAlive() {
         GolBoard golBoard = new GolBoard(3, 3);
         golBoard.cellAlive(Cell.of(1, 1));
         assertFalse(golBoard.isCellAlive(0, 0));
@@ -49,7 +52,7 @@ public class GameOfLifeTest {
     }
 
     @Test
-    public void liveCellWithFewerThanTwoLiveNeighborsShouldDie() {
+    public void aliveCellWithFewerThanTwoNeighborsShouldNotLive() {
         GolBoard golBoard = new GolBoard(3, 3);
         golBoard.cellAlive(Cell.of(1, 1));
         golBoard.cellAlive(Cell.of(2, 1));
@@ -58,7 +61,7 @@ public class GameOfLifeTest {
     }
 
     @Test
-    public void liveCellWithTwoNeighboursShouldLive() {
+    public void aliveCellWithTwoNeighboursShouldLive() {
         GolBoard golBoard = new GolBoard(3, 3);
         golBoard.cellAlive(Cell.of(1, 1));
         golBoard.cellAlive(Cell.of(2, 1));
@@ -68,7 +71,7 @@ public class GameOfLifeTest {
     }
 
     @Test
-    public void liveCellWithThreeNeighboursShouldLive() {
+    public void aliveCellWithThreeNeighboursShouldLive() {
         GolBoard golBoard = new GolBoard(3, 3);
         golBoard.cellAlive(Cell.of(1, 1));
         golBoard.cellAlive(Cell.of(2, 1));
@@ -79,7 +82,7 @@ public class GameOfLifeTest {
     }
 
     @Test
-    public void liveCellWithFourNeighboursShouldDie() {
+    public void aliveCellWithFourNeighboursShouldNotLive() {
         GolBoard golBoard = new GolBoard(3, 3);
         golBoard.cellAlive(Cell.of(1, 1));
         golBoard.cellAlive(Cell.of(2, 1));
@@ -107,6 +110,23 @@ public class GameOfLifeTest {
         assertEquals(0, golBoard.countNeighboursAlive(Cell.of(1, 1)));
     }
 
+    @ParameterizedTest
+    @CsvSource(value = {
+            "1: 0: 0",
+            "1: 2: 0",
+            "0: 1: 0",
+            "0: 0: 0",
+            "0: 2: 0",
+            "2: 0: 0",
+            "2: 1: 0",
+            "2: 2: 0"
+    }, delimiter = ':')
+    void countNeighboursAliveHereToo(int col, int row, int expected) {
+        GolBoard golBoard = new GolBoard(3, 3);
+        golBoard.isCellAlive(1, 1);
+        assertEquals(expected, golBoard.countNeighboursAlive(Cell.of(col,row)));
+    }
+
     @Test
     public void countUpperLeftNeighbourAliveShouldReturnOne() {
         GolBoard golBoard = new GolBoard(3, 3);
@@ -116,7 +136,7 @@ public class GameOfLifeTest {
     }
 
     @Test
-    public void countNeighboursAliveShouldReturnThree() {
+    public void countThreeNeighboursAliveShouldReturnThree() {
         GolBoard golBoard = new GolBoard(5, 5);
         golBoard.cellAlive(Cell.of(3, 2)); //det behövs inte att sättas ALIVE, man räknar bara antal grannar till denna cell
         golBoard.cellAlive(Cell.of(3, 1));
