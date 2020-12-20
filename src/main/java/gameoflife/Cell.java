@@ -21,17 +21,19 @@ public class Cell {
         return col;
     }
 
-   // private static Map<String, Cell> cache = new HashMap<>();
+    //Cache handling can be effective in case of huge amount of data.
+    //When we reuse same objects without creating new ones all the time.
+    // private static Map<String, Cell> cache = new HashMap<>();
 
     public static Cell of(int col, int row) {
 //        String key = "" + col + "," + row;
-////        if (cache.containsKey(key))
-////            return cache.get(key);
-////        else {
-////            var cell = Cell.of(col, row);
-////            cache.put(key, cell);
-////            return cell;
-////        }
+//        if (cache.containsKey(key))
+//            return cache.get(key);
+//        else {
+//            var cell = Cell.of(col, row);
+//            cache.put(key, cell);
+//            return cell;
+//        }
 //        return cache.computeIfAbsent(key, newKey -> Cell.of(col, row));
         return new Cell(col,row);
     }

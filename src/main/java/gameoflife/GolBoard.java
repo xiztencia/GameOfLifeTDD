@@ -17,36 +17,6 @@ public class GolBoard {
         this.height = height;
     }
 
-    public GolBoard createNextGeneration() {
-        var nextBoard = new GolBoard(boardWidth(), boardHeight());
-        spawnNewCells(nextBoard);
-        survivingCells(nextBoard);
-        return nextBoard;
-    }
-
-    private void spawnNewCells(GolBoard nextBoard) {
-        for (int i = 0; i < boardHeight(); i++)
-            for (int j = 0; j < boardWidth(); j++) {
-                if (countNeighboursAlive(Cell.of(j, i)) == 3)
-                    nextBoard.cellAlive(Cell.of(j, i));
-            }
-    }
-
-    private void survivingCells(GolBoard nextBoard) {
-        for (Cell cell : aliveCells) {
-            var count = countNeighboursAlive(cell);
-            if (count == 2 || count == 3)
-                nextBoard.cellAlive(cell);
-        }
-    }
-
-    public int countNeighboursAlive(Cell cell) {
-        Set<Cell> neighbours = cell.neighbours();
-        return (int) neighbours.stream()
-                .filter(neighbourCell -> aliveCells.contains(neighbourCell))
-                .count();
-    }
-
     public boolean isAllDead() {
         return aliveCells.isEmpty();
     }
@@ -71,5 +41,35 @@ public class GolBoard {
                 .findAny();
 
         return oCell.isPresent();
+    }
+
+    public int countNeighboursAlive(Cell cell) {
+        Set<Cell> neighbours = cell.neighbours();
+        return (int) neighbours.stream()
+                .filter(neighbourCell -> aliveCells.contains(neighbourCell))
+                .count();
+    }
+
+    public GolBoard createNextGeneration() {
+        var nextBoard = new GolBoard(boardWidth(), boardHeight());
+        spawnNewCells(nextBoard);
+        survivingCells(nextBoard);
+        return nextBoard;
+    }
+
+    private void spawnNewCells(GolBoard nextBoard) {
+        for (int i = 0; i < boardHeight(); i++)
+            for (int j = 0; j < boardWidth(); j++) {
+                if (countNeighboursAlive(Cell.of(j, i)) == 3)
+                    nextBoard.cellAlive(Cell.of(j, i));
+            }
+    }
+
+    private void survivingCells(GolBoard nextBoard) {
+        for (Cell cell : aliveCells) {
+            var count = countNeighboursAlive(cell);
+            if (count == 2 || count == 3)
+                nextBoard.cellAlive(cell);
+        }
     }
 }
